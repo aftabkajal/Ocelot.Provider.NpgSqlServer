@@ -31,13 +31,12 @@ namespace Ocelot.Provider.NpgSqlServer.Middleware
 
         private static async Task<IInternalConfiguration> CreateConfiguration(IApplicationBuilder builder)
         {
-            // make configuration from file system?
-            // earlier user needed to add ocelot files in startup configuration stuff, asp.net will map it to this
-            //var fileConfig = builder.ApplicationServices.GetService<IOptionsMonitor<FileConfiguration>>();
             var fileConfig = await builder.ApplicationServices.GetService<IFileConfigurationRepository>().Get();
+
             // now create the config
             var internalConfigCreator = builder.ApplicationServices.GetService<IInternalConfigurationCreator>();
             var internalConfig = await internalConfigCreator.Create(fileConfig.Data);
+
             //Configuration error, throw error message
             if (internalConfig.IsError)
             {
@@ -47,12 +46,6 @@ namespace Ocelot.Provider.NpgSqlServer.Middleware
             // now save it in memory
             var internalConfigRepo = builder.ApplicationServices.GetService<IInternalConfigurationRepository>();
             internalConfigRepo.AddOrReplace(internalConfig.Data);
-
-            //fileConfig.OnChange(async (config) =>
-            //{
-            //    var newInternalConfig = await internalConfigCreator.Create(config);
-            //    internalConfigRepo.AddOrReplace(newInternalConfig.Data);
-            //});
 
             var adminPath = builder.ApplicationServices.GetService<IAdministrationPath>();
 
@@ -80,16 +73,6 @@ namespace Ocelot.Provider.NpgSqlServer.Middleware
         {
             return adminPath != null;
         }
-
-        //private static async Task SetFileConfig(IFileConfigurationSetter fileConfigSetter, IOptionsMonitor<FileConfiguration> fileConfig)
-        //{
-        //    var response = await fileConfigSetter.Set(fileConfig.CurrentValue);
-
-        //    if (IsError(response))
-        //    {
-        //        ThrowToStopOcelotStarting(response);
-        //    }
-        //}
 
         private static bool IsError(Response response)
         {

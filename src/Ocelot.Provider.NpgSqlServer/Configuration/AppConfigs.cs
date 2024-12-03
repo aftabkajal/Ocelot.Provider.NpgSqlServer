@@ -1,6 +1,6 @@
 ﻿namespace Ocelot.Provider.NpgSqlServer.Configuration
 {
-    public class AppConfigs
+    public class AppSettings
     {
         /// <summary>
         /// true

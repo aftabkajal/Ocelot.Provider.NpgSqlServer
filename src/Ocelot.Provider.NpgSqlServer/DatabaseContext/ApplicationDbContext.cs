@@ -4,11 +4,11 @@ using Newtonsoft.Json.Linq;
 using Ocelot.Provider.NpgSqlServer.Configuration;
 using Ocelot.Provider.NpgSqlServer.Models;
 
-namespace Ocelot.Provider.NpgSqlServer.Db
+namespace Ocelot.Provider.NpgSqlServer.DatabaseContext
 {
-    public class AppDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        private readonly AppConfigs _appConfigs;
+        private readonly AppSettings _appSettings;
         private readonly string _jsonRouteSample = @"{
         'DownstreamPathTemplate': '/{everything}',
         'DownstreamScheme': 'http',
@@ -23,9 +23,9 @@ namespace Ocelot.Provider.NpgSqlServer.Db
             'Get'
         ]}";
 
-        public AppDbContext(IOptions<AppConfigs> options)
+        public ApplicationDbContext(IOptions<AppSettings> options)
         {
-            _appConfigs = options.Value;
+            _appSettings = options.Value;
         }
 
         public DbSet<OcelotGlobalConfiguration> OcelotGlobalConfigurations { get; set; }
@@ -34,8 +34,8 @@ namespace Ocelot.Provider.NpgSqlServer.Db
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_appConfigs.DbConnectionStrings,
-                b => b.MigrationsAssembly(_appConfigs.MigrationsAssembly));
+            optionsBuilder.UseNpgsql(_appSettings.DbConnectionStrings,
+                b => b.MigrationsAssembly(_appSettings.MigrationsAssembly));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -4,7 +4,7 @@ using Ocelot.Cache;
 using Ocelot.Configuration.File;
 using Ocelot.Configuration.Repository;
 using Ocelot.Provider.NpgSqlServer.Configuration;
-using Ocelot.Provider.NpgSqlServer.Db;
+using Ocelot.Provider.NpgSqlServer.DatabaseContext;
 using Ocelot.Provider.NpgSqlServer.Extensions;
 using Ocelot.Responses;
 
@@ -13,12 +13,12 @@ namespace Ocelot.Provider.NpgSqlServer.Repository
     public class NpgSqlServerFileConfigurationRepository : IFileConfigurationRepository
     {
         private readonly IOcelotCache<FileConfiguration> _cache;
-        private readonly AppDbContext _dbContext;
-        private readonly AppConfigs _option;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly AppSettings _option;
 
-        public NpgSqlServerFileConfigurationRepository(AppConfigs option,
+        public NpgSqlServerFileConfigurationRepository(AppSettings option,
                                                     IOcelotCache<FileConfiguration> cache,
-                                                    AppDbContext dbContext)
+                                                    ApplicationDbContext dbContext)
         {
             _option = option;
             _cache = cache;
