@@ -20,9 +20,5 @@ Populate your PostgreSQL database with Ocelot route configurations. Use a migrat
 ## Run Your Application
 Start your application, and Ocelot will dynamically load routes from your PostgreSQL database.
 
-## Share Your Feedback
-
-We appreciate your feedback, suggestions, and contributions. Please feel free to open issues or reach out with your thoughts. We respond to every issue or message and are eager to improve this package. Thank you for using Ocelot.Provider.NpgSqlServer!
-
 
 Thank you for choosing Ocelot.Provider.NpgSqlServer! 🚀 Let’s build scalable, flexible, and dynamic API Gateways together.
